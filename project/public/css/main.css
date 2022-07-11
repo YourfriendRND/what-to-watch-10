@@ -1440,3 +1440,29 @@ main {
   color: #fff;
   background: #fd612ead;
   border-radius: 15px; }
+
+.unexist-screen-message-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.unexist-screen-message {
+  font-size: 32px;
+  text-align: center;
+  margin-top: 100;
+}
+
+.back-to-main__link {
+  padding: 24px 80px;
+  border: 1px solid rgba(217,205,141,.41);
+  text-decoration: none;
+  color: #d9cd8d;
+  cursor: pointer;
+  display: block;
+  margin: 60px auto;
+}
+
+.back-to-main__link:hover {
+  border: 1px solid rgba(217,205,141,.7);
+}
