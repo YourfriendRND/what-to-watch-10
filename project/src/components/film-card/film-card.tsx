@@ -7,8 +7,6 @@ type FilmProp = {
 };
 
 const FilmCard = ({ film }: FilmProp): JSX.Element => {
-  // Не понимаю, где мне сейчас необходимо использовать первый параметр
-  // Пока пропустил его чтобы линтер не ругался на неиспользуюмую переменную
   const [, setActiveFilm] = useState(0);
   return (
     <article className="small-film-card catalog__films-card" id={`${film.id}`} onMouseOver={() => setActiveFilm(film.id)}>
