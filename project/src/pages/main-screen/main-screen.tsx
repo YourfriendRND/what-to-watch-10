@@ -1,13 +1,15 @@
-import FilmCard from '../../components/film-card/film-card';
-import {CARD_QTY_ON_PAGE} from '../../contants';
+import Logo from '../../components/logo/logo';
+import FilmList from '../../components/film-list/film-list';
+import { Film } from '../../types/film';
 
 type PromoFilm = {
   title: string,
   genre: string,
-  year: number
+  year: number,
+  filmList: Film[]
 }
 
-const MainScreen = ({title, genre, year}: PromoFilm):JSX.Element => (
+const MainScreen = ({title, genre, year, filmList}: PromoFilm):JSX.Element => (
   <section className="main">
     <section className="film-card">
       <div className="film-card__bg">
@@ -17,13 +19,7 @@ const MainScreen = ({title, genre, year}: PromoFilm):JSX.Element => (
       <h1 className="visually-hidden">WTW</h1>
 
       <header className="page-header film-card__head">
-        <div className="logo">
-          <a className="logo__link" href="#/">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        <Logo isLightLogo={false}/>
 
         <ul className="user-block">
           <li className="user-block__item">
@@ -105,22 +101,14 @@ const MainScreen = ({title, genre, year}: PromoFilm):JSX.Element => (
           </li>
         </ul>
 
-        <div className="catalog__films-list">
-          {Array.from({length: CARD_QTY_ON_PAGE}, () => <FilmCard />)}
-        </div>
+        <FilmList films={filmList}/>
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
         </div>
       </section>
       <footer className="page-footer">
-        <div className="logo">
-          <a className="logo__link logo__link--light" href="#/">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        <Logo isLightLogo />
 
         <div className="copyright">
           <p>© 2019 What to watch Ltd.</p>
