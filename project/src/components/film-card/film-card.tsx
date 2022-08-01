@@ -1,21 +1,38 @@
 import { Link } from 'react-router-dom';
 import { Film } from '../../types/film';
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useCallback } from 'react';
 import VideoPlayer from '../video-player/video-player';
+import { PREVIEW_VIDEO_PLAYER_DELAY } from '../../contants';
 
 type FilmProp = {
   film: Film,
-  isPlayerActive: boolean,
-  setActiveFilm: (id: number) => NodeJS.Timeout,
-  resetActiveFilm: (id: number, timeout: NodeJS.Timeout | null) => void
 };
 
-const FilmCard = ({ film, isPlayerActive, setActiveFilm, resetActiveFilm }: FilmProp): JSX.Element => {
-  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+const FilmCard = ({ film }: FilmProp): JSX.Element => {
+  const [timer, setTimer] = useState<number | null>(null);
+  const [isPlayerActive, setPlayerActive] = useState(false);
+
+  const handleMouseEnter = useCallback(() => {
+    const timeout = window.setTimeout(() => {
+      setPlayerActive(true);
+    }, PREVIEW_VIDEO_PLAYER_DELAY);
+
+    setTimer(timeout);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!timer) {
+      return;
+    }
+    window.clearTimeout(timer);
+
+    setPlayerActive(false);
+  }, [timer]);
+
   return (
     <article className="small-film-card catalog__films-card" id={`${film.id}`}
-      onMouseEnter={() => setTimer(setActiveFilm(film.id))}
-      onMouseLeave={() => resetActiveFilm(0, timer)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {isPlayerActive
         ? <VideoPlayer videoLink={film.previewVideoLink} previewImage={film.previewImage} />

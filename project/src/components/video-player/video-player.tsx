@@ -5,7 +5,7 @@ type VideoPlayerProp = {
 
 const VideoPlayer = ({videoLink, previewImage}:VideoPlayerProp):JSX.Element => (
   <div className="video-player">
-    <video src={videoLink} poster={previewImage} autoPlay muted width="280" height="175"></video>
+    <video src={videoLink} poster={previewImage} autoPlay muted width="280" height="175" style={{objectFit: 'cover', borderRadius: '6px'}}></video>
   </div>
 );
 
