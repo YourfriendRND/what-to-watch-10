@@ -2,6 +2,8 @@
 
 const CARD_QTY_ON_PAGE = 20;
 
+const PREVIEW_VIDEO_PLAYER_DELAY = 1000;
+
 enum AppPageRoute {
   Main = '/',
   Login = '/login',
@@ -19,6 +21,7 @@ enum AuthorizationStatus {
 
 export {
   CARD_QTY_ON_PAGE,
+  PREVIEW_VIDEO_PLAYER_DELAY,
   AppPageRoute,
   AuthorizationStatus
 };
