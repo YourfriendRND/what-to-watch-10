@@ -19,9 +19,19 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+enum TabsTypes {
+  OVERVIEW = 'Overview',
+  DETAILS = 'Details',
+  REVIEW = 'Reviews'
+}
+
+const MAX_SAME_FILM_COUNT = 4;
+
 export {
   CARD_QTY_ON_PAGE,
   PREVIEW_VIDEO_PLAYER_DELAY,
+  MAX_SAME_FILM_COUNT,
   AppPageRoute,
-  AuthorizationStatus
+  AuthorizationStatus,
+  TabsTypes
 };
