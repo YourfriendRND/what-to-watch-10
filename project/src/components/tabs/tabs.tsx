@@ -1,10 +1,11 @@
 import { Fragment } from 'react';
 import { Film } from '../../types/film';
 import { TabsTypes } from '../../contants';
+import { TabView } from '../../types/general';
 
 type TabsProp = {
   targetFilm: Film,
-  tapType: string
+  tab: TabView
 };
 
 const getRunTime = (runTime: number):string => {
@@ -21,8 +22,8 @@ const getRunTime = (runTime: number):string => {
   return `${hours}h`;
 };
 
-const Tabs = ({ targetFilm, tapType }: TabsProp): JSX.Element => {
-  switch (tapType) {
+const Tabs = ({ targetFilm, tab }: TabsProp): JSX.Element => {
+  switch (tab) {
     case TabsTypes.DETAILS: {
       return (
         <div className="film-card__text film-card__row">

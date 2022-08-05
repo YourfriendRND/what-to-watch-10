@@ -7,6 +7,7 @@ import Tabs from '../../components/tabs/tabs';
 import { SyntheticEvent, useState } from 'react';
 import FilmCard from '../../components/film-card/film-card';
 import { MAX_SAME_FILM_COUNT, TabsTypes } from '../../contants';
+import { TabView } from '../../types/general';
 
 type MovieProp = {
   filmList: Film[]
@@ -14,7 +15,7 @@ type MovieProp = {
 
 const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
   const queryParam = useParams();
-  const [tabView, setTabView] = useState<string>(TabsTypes.OVERVIEW);
+  const [tabView, setTabView] = useState<TabView>(TabsTypes.OVERVIEW);
   const {pathname} = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -23,8 +24,9 @@ const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
   const handlerTabClick = (evt: SyntheticEvent) => {
     evt.preventDefault();
     const linkText = evt.currentTarget.textContent;
-    if (linkText) {
-      setTabView(linkText);
+    const tabName = Object.values(TabsTypes).find((value) => linkText === value);
+    if (tabName) {
+      setTabView(tabName);
     }
   };
   const targetFilm = filmList.find((film) => film.id === Number(queryParam.id));
@@ -107,7 +109,7 @@ const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
                 </ul>
               </nav>
 
-              <Tabs targetFilm={targetFilm} tapType={tabView}/>
+              <Tabs targetFilm={targetFilm} tab={tabView}/>
             </div>
           </div>
         </div>
