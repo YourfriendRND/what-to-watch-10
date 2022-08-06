@@ -73,7 +73,7 @@ const films:Film[] = [
     director: 'Woody Allen',
     starring: ['Rebecca Hall', 'Scarlett Johansson', 'Javier Bardem'],
     runTime: 96,
-    genre: 'Romance',
+    genre: 'Drama',
     released: 2008,
     isFavorite: false
   },
@@ -92,7 +92,7 @@ const films:Film[] = [
     director: 'Zack Snyder',
     starring: ['Gerard Butler', 'Lena Headey', 'Dominic West'],
     runTime: 117,
-    genre: 'Action',
+    genre: 'Crime',
     released: 2006,
     isFavorite: true
   },
@@ -111,7 +111,7 @@ const films:Film[] = [
     director: 'David Fincher',
     starring: ['Brad Pitt', 'Cate Blanchett', 'Tilda Swinton'],
     runTime: 111,
-    genre: 'Fantasy',
+    genre: 'Drama',
     released: 2008,
     isFavorite: true
   },
@@ -149,7 +149,7 @@ const films:Film[] = [
     director: 'David Fincher',
     starring: ['Brad Pitt', 'Edward Norton', 'Helena Bonham Carter'],
     runTime: 139,
-    genre: 'Drama',
+    genre: 'Crime',
     released: 1999,
     isFavorite: true
   }

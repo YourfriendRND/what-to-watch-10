@@ -6,9 +6,10 @@ import { PREVIEW_VIDEO_PLAYER_DELAY } from '../../contants';
 
 type FilmProp = {
   film: Film,
+  isDefaultView: boolean
 };
 
-const FilmCard = ({ film }: FilmProp): JSX.Element => {
+const FilmCard = ({ film, isDefaultView }: FilmProp): JSX.Element => {
   const [timer, setTimer] = useState<number | null>(null);
   const [isPlayerActive, setPlayerActive] = useState(false);
 
@@ -34,7 +35,7 @@ const FilmCard = ({ film }: FilmProp): JSX.Element => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {isPlayerActive
+      {isPlayerActive && isDefaultView
         ? <VideoPlayer videoLink={film.previewVideoLink} previewImage={film.previewImage} />
         :
         <Fragment>
@@ -42,7 +43,7 @@ const FilmCard = ({ film }: FilmProp): JSX.Element => {
             <img src={film.previewImage} alt={film.name} width="280" height="175" />
           </div>
           <h3 className="small-film-card__title">
-            <Link className="small-film-card__link" to={`films/${film.id}`}>{film.name}</Link>
+            <Link className="small-film-card__link" to={`/films/${film.id}`}>{film.name}</Link>
           </h3>
         </Fragment>}
     </article>);
