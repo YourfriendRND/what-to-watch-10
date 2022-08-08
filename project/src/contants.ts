@@ -27,11 +27,14 @@ enum TabsTypes {
 
 const MAX_SAME_FILM_COUNT = 4;
 
+const BASE_GENRE_FILM = 'All genres';
+
 export {
   CARD_QTY_ON_PAGE,
   PREVIEW_VIDEO_PLAYER_DELAY,
   MAX_SAME_FILM_COUNT,
   AppPageRoute,
   AuthorizationStatus,
-  TabsTypes
+  TabsTypes,
+  BASE_GENRE_FILM
 };

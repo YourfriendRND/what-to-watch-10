@@ -1,5 +1,7 @@
 import { Film } from '../../types/film';
 import { SyntheticEvent } from 'react';
+import { useAppDispatch } from '../../hooks/index';
+import { changeGenre, getUpdatedFilmList } from '../../store/action';
 
 type GenreListProp = {
   currentGenre: string,
@@ -7,9 +9,14 @@ type GenreListProp = {
 };
 
 const GenreList = ({currentGenre, films}: GenreListProp): JSX.Element => {
-
+  const dispatch = useAppDispatch();
   const handlerGenreClick = (evt: SyntheticEvent) => {
     evt.preventDefault();
+    const checkedGenre = evt.currentTarget.textContent;
+    if (checkedGenre) {
+      dispatch(changeGenre(checkedGenre));
+      dispatch(getUpdatedFilmList());
+    }
   };
 
   const getUniqGenre = ():string[] => {

@@ -21,7 +21,7 @@ function App({title, genre, year, filmList}: MainPromoFilm): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppPageRoute.Main} element={<MainScreen filmList={filmList} title={title} genre={genre} year={year}/>} />
+        <Route path={AppPageRoute.Main} element={<MainScreen title={title} genre={genre} year={year}/>} />
         <Route path={AppPageRoute.Login} element={<AuthScreen />} />
         <Route path={AppPageRoute.Film} element={<MovieScreen filmList={filmList}/>} />
         <Route path={AppPageRoute.FilmReview} element={<MovieScreenReview filmList={filmList}/>} />
