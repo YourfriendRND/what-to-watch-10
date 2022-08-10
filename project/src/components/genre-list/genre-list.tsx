@@ -13,8 +13,8 @@ const GenreList = ({currentGenre, films}: GenreListProp): JSX.Element => {
     films.forEach((film) => genresCollection.add(film.genre));
     return Array.from(genresCollection);
   };
-  const genreList = getUniqGenre();
-  genreList.unshift(BASE_GENRE_FILM);
+
+  const genreList = [BASE_GENRE_FILM, ...getUniqGenre()];
 
   return (
     <ul className="catalog__genres-list">
