@@ -2,6 +2,7 @@ import Logo from '../../components/logo/logo';
 import FilmList from '../../components/film-list/film-list';
 import { useAppSelector } from '../../hooks/index';
 import GenreList from '../../components/genre-list/genre-list';
+import { BASE_GENRE_FILM } from '../../contants';
 
 type PromoFilm = {
   title: string,
@@ -12,7 +13,7 @@ type PromoFilm = {
 const MainScreen = ({ title, genre, year }: PromoFilm): JSX.Element => {
   const currentGenre = useAppSelector((state) => state.genre);
   const filmList = useAppSelector((state) => state.filmList);
-  const filmListByGenre = useAppSelector((state) => state.filmListByGenre);
+  const filmListByGenre = currentGenre !== BASE_GENRE_FILM ? filmList.filter((film) => film.genre === currentGenre) : filmList;
 
   return (
     <section className="main">
