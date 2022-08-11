@@ -18,7 +18,7 @@ const GenreList = ({currentGenre, films}: GenreListProp): JSX.Element => {
 
   return (
     <ul className="catalog__genres-list">
-      {genreList.map((genre) => <GenreItem key={genre} genre={genre} activeGenre={currentGenre}/>)}
+      {genreList.map((genre) => <li key={genre} className={currentGenre === genre ? 'catalog__genres-item catalog__genres-item--active' : 'catalog__genres-item'}><GenreItem genre={genre} /></li>)}
     </ul>
   );
 };
