@@ -25,6 +25,8 @@ enum TabsTypes {
   REVIEW = 'Reviews'
 }
 
+const FILM_LIMIT_ON_MAIN_SCREEN = 2;
+
 const MAX_SAME_FILM_COUNT = 4;
 
 const BASE_GENRE_FILM = 'All genres';
@@ -36,5 +38,6 @@ export {
   AppPageRoute,
   AuthorizationStatus,
   TabsTypes,
-  BASE_GENRE_FILM
+  BASE_GENRE_FILM,
+  FILM_LIMIT_ON_MAIN_SCREEN
 };

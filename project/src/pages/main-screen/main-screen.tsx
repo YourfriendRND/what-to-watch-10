@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import FilmList from '../../components/film-list/film-list';
 import { useAppSelector } from '../../hooks/index';
 import GenreList from '../../components/genre-list/genre-list';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import { BASE_GENRE_FILM } from '../../contants';
+import { resetNumberFilmCard } from '../../store/action';
+import { useAppDispatch } from '../../hooks/index';
 
 type PromoFilm = {
   title: string,
@@ -11,10 +16,15 @@ type PromoFilm = {
 }
 
 const MainScreen = ({ title, genre, year }: PromoFilm): JSX.Element => {
+  const dispatch = useAppDispatch();
   const currentGenre = useAppSelector((state) => state.genre);
   const filmList = useAppSelector((state) => state.filmList);
+  const currentFilmsNumber = useAppSelector((state) => state.numberFilmCardOnPage);
   const filmListByGenre = currentGenre !== BASE_GENRE_FILM ? filmList.filter((film) => film.genre === currentGenre) : filmList;
-
+  const {pathname} = useLocation();
+  useEffect(() => {
+    dispatch(resetNumberFilmCard());
+  }, [dispatch, pathname]);
   return (
     <section className="main">
       <section className="film-card">
@@ -76,11 +86,10 @@ const MainScreen = ({ title, genre, year }: PromoFilm): JSX.Element => {
 
           <GenreList currentGenre={currentGenre} films={filmList} />
 
-          <FilmList films={filmListByGenre} />
+          <FilmList films={filmListByGenre} maxFilmsNumber={currentFilmsNumber}/>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {<ShowMoreButton isActive={filmListByGenre.length > currentFilmsNumber}/>}
+
         </section>
         <footer className="page-footer">
           <Logo isLightLogo />
