@@ -26,7 +26,7 @@ const MyListScreen = ({filmList}:MyListScreenProp):JSX.Element => (
 
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
-      <FilmList films={filmList} maxFilmsNumber={8}/>
+      <FilmList films={filmList} maxFilmsNumber={filmList.length}/>
     </section>
 
     <footer className="page-footer">

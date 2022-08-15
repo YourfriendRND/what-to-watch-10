@@ -25,7 +25,7 @@ enum TabsTypes {
   REVIEW = 'Reviews'
 }
 
-const FILM_LIMIT_ON_MAIN_SCREEN = 2;
+const FILM_LIMIT_ON_MAIN_SCREEN = 4;
 
 const MAX_SAME_FILM_COUNT = 4;
 
