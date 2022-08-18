@@ -1,4 +1,4 @@
-import { setGenre, resetNumberFilmCard } from '../../store/action';
+import { setGenre } from '../../store/action';
 import { useAppDispatch } from '../../hooks/index';
 import { SyntheticEvent } from 'react';
 
@@ -11,7 +11,6 @@ const GenreItem = ( { genre }: GenreItemProps):JSX.Element => {
   const handlerGenreClick = (evt:SyntheticEvent) => {
     evt.preventDefault();
     dispatch(setGenre(genre));
-    dispatch(resetNumberFilmCard());
   };
 
   return (<a href="#/" className="catalog__genres-link" onClick={handlerGenreClick}>{genre}</a>);
