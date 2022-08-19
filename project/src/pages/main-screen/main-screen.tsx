@@ -1,6 +1,7 @@
 import Logo from '../../components/logo/logo';
 import { useAppSelector } from '../../hooks/index';
 import Catalog from '../../components/catalog/catalog';
+import Spinner from '../../components/spinner/spinner';
 
 type PromoFilm = {
   title: string,
@@ -11,6 +12,7 @@ type PromoFilm = {
 const MainScreen = ({ title, genre, year }: PromoFilm): JSX.Element => {
   const currentGenre = useAppSelector((state) => state.genre);
   const filmList = useAppSelector((state) => state.filmList);
+  const isFilmListLoaded = useAppSelector((state) => state.isFilmListLoaded);
   return (
     <section className="main">
       <section className="film-card">
@@ -68,7 +70,7 @@ const MainScreen = ({ title, genre, year }: PromoFilm): JSX.Element => {
       </section>
       <div className="page-content">
 
-        <Catalog films={filmList} genre={currentGenre} />
+        {isFilmListLoaded ? <Catalog films={filmList} genre={currentGenre} /> : <Spinner />}
 
         <footer className="page-footer">
           <Logo isLightLogo />

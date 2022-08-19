@@ -8,16 +8,16 @@ import PlayerScreen from '../../pages/player-screen/player-screen';
 import UnexistScreen from '../../pages/unexist-screen/unexist-screen';
 import {AppPageRoute, AuthorizationStatus} from '../../contants';
 import PrivateRoute from '../private-route/private-route';
-import {Film} from '../../types/film';
+import { useAppSelector } from '../../hooks/index';
 
 type MainPromoFilm = {
   title: string,
   genre: string,
   year: number,
-  filmList: Film[]
 }
 
-function App({title, genre, year, filmList}: MainPromoFilm): JSX.Element {
+function App({title, genre, year}: MainPromoFilm): JSX.Element {
+  const filmList = useAppSelector((state) => state.filmList);
   return (
     <BrowserRouter>
       <Routes>
