@@ -25,7 +25,17 @@ enum TabsTypes {
   REVIEW = 'Reviews'
 }
 
+const FILM_LIMIT_ON_MAIN_SCREEN = 8;
+
 const MAX_SAME_FILM_COUNT = 4;
+
+const BASE_GENRE_FILM = 'All genres';
+
+const SERVER_URL = 'https://10.react.pages.academy/wtw';
+
+const REQUEST_TIMEOUT = 5000;
+
+const AUTH_TOKEN_KEY_NAME = 'what-to-whatch-token';
 
 export {
   CARD_QTY_ON_PAGE,
@@ -33,5 +43,10 @@ export {
   MAX_SAME_FILM_COUNT,
   AppPageRoute,
   AuthorizationStatus,
-  TabsTypes
+  TabsTypes,
+  BASE_GENRE_FILM,
+  FILM_LIMIT_ON_MAIN_SCREEN,
+  SERVER_URL,
+  REQUEST_TIMEOUT,
+  AUTH_TOKEN_KEY_NAME
 };
