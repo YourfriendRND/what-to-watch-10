@@ -37,6 +37,11 @@ const REQUEST_TIMEOUT = 5000;
 
 const AUTH_TOKEN_KEY_NAME = 'what-to-whatch-token';
 
+enum ServerRoute {
+  FILM_ROUTE = '/films',
+  LOGIN_ROUTE = '/login'
+}
+
 export {
   CARD_QTY_ON_PAGE,
   PREVIEW_VIDEO_PLAYER_DELAY,
@@ -48,5 +53,6 @@ export {
   FILM_LIMIT_ON_MAIN_SCREEN,
   SERVER_URL,
   REQUEST_TIMEOUT,
-  AUTH_TOKEN_KEY_NAME
+  AUTH_TOKEN_KEY_NAME,
+  ServerRoute
 };

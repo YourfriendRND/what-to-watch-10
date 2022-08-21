@@ -2,6 +2,7 @@ import Logo from '../../components/logo/logo';
 import { useAppSelector } from '../../hooks/index';
 import Catalog from '../../components/catalog/catalog';
 import Spinner from '../../components/spinner/spinner';
+import UserBlock from '../../components/user-block/user-block';
 
 type PromoFilm = {
   title: string,
@@ -25,16 +26,7 @@ const MainScreen = ({ title, genre, year }: PromoFilm): JSX.Element => {
         <header className="page-header film-card__head">
           <Logo isLightLogo={false} />
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link" href="#/">Sign out</a>
-            </li>
-          </ul>
+          <UserBlock />
         </header>
         <div className="film-card__wrap">
           <div className="film-card__info">
