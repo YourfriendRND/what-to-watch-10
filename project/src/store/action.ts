@@ -12,3 +12,13 @@ export const setFilmFetchAsFinished = createAction('setFilmFetchAsFinished');
 
 export const setAuthStatus = createAction<AuthorizationStatus>('setAuthStatus');
 
+export const loadSpecificFilm = createAction<Film>('loadSpecificFilm');
+
+export const loadSimilarFilms = createAction<Film[]>('loadSimilarFilms');
+
+export const setLoadingStatus = createAction<boolean>('setLoadingStatus');
+
+export const clearCurrentFilm = createAction('clearCurrentFilm');
+
+export const setError = createAction<string | null>('setError');
+

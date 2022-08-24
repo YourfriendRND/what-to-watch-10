@@ -1,26 +1,40 @@
 import Logo from '../../components/logo/logo';
 import { useEffect } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
-import { Film } from '../../types/film';
+//import { Film } from '../../types/film';
 import UnexistScreen from '../unexist-screen/unexist-screen';
+import LoadingScreen from '../loading-page/loading-screen';
 import Tabs from '../../components/tabs/tabs';
 import { SyntheticEvent, useState } from 'react';
 import FilmCard from '../../components/film-card/film-card';
-import { MAX_SAME_FILM_COUNT, TabsTypes } from '../../contants';
+import { TabsTypes, MAX_SAME_FILM_COUNT } from '../../contants';
 import { TabView } from '../../types/general';
+import { useAppSelector, useAppDispatch } from '../../hooks/index';
+import { fetchSpecificFilm, fetchSimilarFilms } from '../../store/api-actions';
+import { clearCurrentFilm, setLoadingStatus } from '../../store/action';
 
-type MovieProp = {
-  filmList: Film[]
-}
 
-const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
+const MovieScreen = (): JSX.Element => {
   const queryParam = useParams();
+  const filmId = Number(queryParam.id);
+  const dispatch = useAppDispatch();
+  const currentFilm = useAppSelector((state) => state.currentFilm);
+  const similarFilms = useAppSelector((state) => state.similarFilms);
+  const isLoadingStatus = useAppSelector((state) => state.isLoading);
+  // Делать проверку есть ли фильм и равен ли его id query если да, то повторно не запрашивать
+
+  // console.log(currentFilm);
   const [tabView, setTabView] = useState<TabView>(TabsTypes.OVERVIEW);
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
     setTabView(TabsTypes.OVERVIEW);
-  }, [pathname]);
+    dispatch(clearCurrentFilm());
+    dispatch(setLoadingStatus(true));
+    dispatch(fetchSpecificFilm({ id: filmId }));
+    dispatch(fetchSimilarFilms({ id: filmId }));
+  }, [dispatch, filmId, pathname]);
+
   const handlerTabClick = (evt: SyntheticEvent) => {
     evt.preventDefault();
     const linkText = evt.currentTarget.textContent;
@@ -29,16 +43,19 @@ const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
       setTabView(tabName);
     }
   };
-  const targetFilm = filmList.find((film) => film.id === Number(queryParam.id));
-  if (!targetFilm) {
+  if (isLoadingStatus) {
+    return <LoadingScreen />;
+  }
+
+  if (!currentFilm) {
     return <UnexistScreen />;
   }
   return (
     <section className="movie-screen">
-      <section className="film-card film-card--full" style={{ background: targetFilm.backgroundColor }}>
+      <section className="film-card film-card--full" style={{ background: currentFilm.backgroundColor }}>
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={targetFilm.backgroundImage} alt={targetFilm.name} />
+            <img src={currentFilm.backgroundImage} alt={currentFilm.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -60,14 +77,14 @@ const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{targetFilm.name}</h2>
+              <h2 className="film-card__title">{currentFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{targetFilm.genre}</span>
-                <span className="film-card__year">{targetFilm.released}</span>
+                <span className="film-card__genre">{currentFilm.genre}</span>
+                <span className="film-card__year">{currentFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <Link style={{textDecoration: 'none'}} to={`/player/${queryParam.id}`}>
+                <Link style={{ textDecoration: 'none' }} to={`/player/${queryParam.id}`}>
                   <button className="btn btn--play film-card__button" type="button">
                     <svg viewBox="0 0 19 19" width="19" height="19">
                       <use href="#play-s"></use>
@@ -91,7 +108,7 @@ const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={targetFilm.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={currentFilm.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
@@ -109,7 +126,7 @@ const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
                 </ul>
               </nav>
 
-              <Tabs targetFilm={targetFilm} tab={tabView}/>
+              <Tabs targetFilm={currentFilm} tab={tabView} />
             </div>
           </div>
         </div>
@@ -120,9 +137,7 @@ const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {filmList.filter((film) => film.genre === targetFilm.genre && film.id !== targetFilm.id)
-              .slice(0, MAX_SAME_FILM_COUNT)
-              .map((film) => <FilmCard key={film.id} film={film} isDefaultView={false}/>)}
+            {similarFilms?.filter((film) => film.id !== currentFilm.id).slice(0, MAX_SAME_FILM_COUNT).map((film) => <FilmCard key={film.id} film={film} isDefaultView={false}/>)}
           </div>
 
         </section>
@@ -135,7 +150,8 @@ const MovieScreen = ({ filmList }: MovieProp): JSX.Element => {
           </div>
         </footer>
       </div>
-    </section>);
+    </section>
+  );
 };
 
 export default MovieScreen;

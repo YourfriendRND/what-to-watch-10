@@ -23,7 +23,7 @@ function App({title, genre, year}: MainPromoFilm): JSX.Element {
       <Routes>
         <Route path={AppPageRoute.Main} element={<MainScreen title={title} genre={genre} year={year}/>} />
         <Route path={AppPageRoute.Login} element={<AuthScreen />} />
-        <Route path={AppPageRoute.Film} element={<MovieScreen filmList={filmList}/>} />
+        <Route path={AppPageRoute.Film} element={<MovieScreen />} />
         <Route path={AppPageRoute.FilmReview} element={<MovieScreenReview filmList={filmList}/>} />
         <Route path={AppPageRoute.MyList} element={
           <PrivateRoute>

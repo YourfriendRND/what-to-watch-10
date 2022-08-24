@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../types/state';
 import { Film } from '../types/film';
 import { User, Login } from '../types/general';
-import { loadFilms, setAuthStatus, setFilmFetchAsFinished } from './action';
+import { loadFilms, loadSpecificFilm, setAuthStatus, setFilmFetchAsFinished, loadSimilarFilms, setError, setLoadingStatus } from './action';
 import { AuthorizationStatus, ServerRoute } from '../contants';
 import { saveToken } from '../services/token';
 
@@ -47,5 +47,36 @@ export const loginUser = createAsyncThunk<void, Login, {
     const token = data.token;
     saveToken(token);
     dispatch(setAuthStatus(AuthorizationStatus.Auth));
+  }
+);
+
+type filmId = { id: number };
+
+export const fetchSpecificFilm = createAsyncThunk<void, filmId, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'fetchSpecificFilm',
+  async ({ id }, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<Film>(`${ServerRoute.FILM_ROUTE}/${id}`);
+      dispatch(loadSpecificFilm(data));
+    } catch {
+      dispatch(setError('Ошибка получения данных фильма'));
+    }
+    dispatch(setLoadingStatus(false));
+  }
+);
+
+export const fetchSimilarFilms = createAsyncThunk<void, filmId, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'loadSimilarFilms',
+  async ({ id }, { dispatch, extra: api }) => {
+    const { data } = await api.get<Film[]>(`${ServerRoute.FILM_ROUTE}/${id}/similar`);
+    dispatch(loadSimilarFilms(data));
   }
 );
