@@ -1,18 +1,17 @@
 import Logo from '../../components/logo/logo';
 import { useEffect } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
-//import { Film } from '../../types/film';
+import UserBlock from '../../components/user-block/user-block';
 import UnexistScreen from '../unexist-screen/unexist-screen';
-import LoadingScreen from '../loading-page/loading-screen';
+import LoadingScreen from '../loading-screen/loading-screen';
 import Tabs from '../../components/tabs/tabs';
 import { SyntheticEvent, useState } from 'react';
 import FilmCard from '../../components/film-card/film-card';
-import { TabsTypes, MAX_SAME_FILM_COUNT } from '../../contants';
+import { TabsTypes, MAX_SAME_FILM_COUNT, AuthorizationStatus } from '../../contants';
 import { TabView } from '../../types/general';
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
-import { fetchSpecificFilm, fetchSimilarFilms } from '../../store/api-actions';
+import { fetchSpecificFilm, fetchSimilarFilms, fetchCommentList } from '../../store/api-actions';
 import { clearCurrentFilm, setLoadingStatus } from '../../store/action';
-
 
 const MovieScreen = (): JSX.Element => {
   const queryParam = useParams();
@@ -21,9 +20,8 @@ const MovieScreen = (): JSX.Element => {
   const currentFilm = useAppSelector((state) => state.currentFilm);
   const similarFilms = useAppSelector((state) => state.similarFilms);
   const isLoadingStatus = useAppSelector((state) => state.isLoading);
-  // Делать проверку есть ли фильм и равен ли его id query если да, то повторно не запрашивать
+  const authStatus = useAppSelector((state) => state.authorizationStatus);
 
-  // console.log(currentFilm);
   const [tabView, setTabView] = useState<TabView>(TabsTypes.OVERVIEW);
   const { pathname } = useLocation();
   useEffect(() => {
@@ -33,6 +31,8 @@ const MovieScreen = (): JSX.Element => {
     dispatch(setLoadingStatus(true));
     dispatch(fetchSpecificFilm({ id: filmId }));
     dispatch(fetchSimilarFilms({ id: filmId }));
+    dispatch(fetchCommentList({ id: filmId }));
+
   }, [dispatch, filmId, pathname]);
 
   const handlerTabClick = (evt: SyntheticEvent) => {
@@ -43,6 +43,7 @@ const MovieScreen = (): JSX.Element => {
       setTabView(tabName);
     }
   };
+
   if (isLoadingStatus) {
     return <LoadingScreen />;
   }
@@ -50,6 +51,7 @@ const MovieScreen = (): JSX.Element => {
   if (!currentFilm) {
     return <UnexistScreen />;
   }
+
   return (
     <section className="movie-screen">
       <section className="film-card film-card--full" style={{ background: currentFilm.backgroundColor }}>
@@ -63,16 +65,7 @@ const MovieScreen = (): JSX.Element => {
           <header className="page-header film-card__head">
             <Logo isLightLogo={false} />
 
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link" href="#/">Sign out</a>
-              </li>
-            </ul>
+            <UserBlock />
           </header>
 
           <div className="film-card__wrap">
@@ -99,7 +92,7 @@ const MovieScreen = (): JSX.Element => {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link to={'review'} className="btn film-card__button">Add review</Link>
+                {authStatus === AuthorizationStatus.Auth ? <Link to={'review'} className="btn film-card__button">Add review</Link> : ''}
               </div>
             </div>
           </div>
@@ -137,7 +130,7 @@ const MovieScreen = (): JSX.Element => {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            {similarFilms?.filter((film) => film.id !== currentFilm.id).slice(0, MAX_SAME_FILM_COUNT).map((film) => <FilmCard key={film.id} film={film} isDefaultView={false}/>)}
+            {similarFilms?.filter((film) => film.id !== currentFilm.id).slice(0, MAX_SAME_FILM_COUNT).map((film) => <FilmCard key={film.id} film={film} isDefaultView={false} />)}
           </div>
 
         </section>

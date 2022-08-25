@@ -1,0 +1,10 @@
+.user-page__content {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-text {
+  font-size: 62px;
+}

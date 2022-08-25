@@ -1,4 +1,5 @@
 import Logo from '../../components/logo/logo';
+import './loading-screen.css';
 
 const LoadingScreen = (): JSX.Element => (
   <div className="user-page">
@@ -9,7 +10,7 @@ const LoadingScreen = (): JSX.Element => (
 
     <div className="user-page__content">
       <div className="loading-process">
-        <p>Loading...</p>
+        <p className='loading-text'>Loading...</p>
       </div>
     </div>
 

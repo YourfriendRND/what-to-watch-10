@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Film } from '../types/film';
-import { setGenre, loadFilms, setFilmFetchAsFinished, setAuthStatus, loadSpecificFilm, loadSimilarFilms, setLoadingStatus, clearCurrentFilm } from './action';
+import { setGenre, loadFilms, setFilmFetchAsFinished, setAuthStatus, loadSpecificFilm, loadSimilarFilms, setLoadingStatus, clearCurrentFilm, loadCommentList } from './action';
 import { BASE_GENRE_FILM, AuthorizationStatus } from '../contants';
+import { FilmComment } from '../types/general';
 
 type InitialStateType = {
   genre: string,
@@ -11,6 +12,7 @@ type InitialStateType = {
   currentFilm: Film | null,
   similarFilms: Film[] | null,
   isLoading: boolean,
+  comments: FilmComment[],
   error: string | null
 };
 
@@ -22,6 +24,7 @@ const initialState:InitialStateType = {
   currentFilm: null,
   similarFilms: null,
   isLoading: false,
+  comments: [],
   error: null,
 
 };
@@ -51,6 +54,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(clearCurrentFilm, (state) => {
       state.currentFilm = null;
+    })
+    .addCase(loadCommentList, (state, action) => {
+      state.comments = action.payload;
     });
 });
 

@@ -1,14 +1,16 @@
 import { Fragment } from 'react';
+import Comment from '../comment/comment';
 import { Film } from '../../types/film';
 import { TabsTypes } from '../../contants';
 import { TabView } from '../../types/general';
+import { useAppSelector } from '../../hooks';
 
 type TabsProp = {
   targetFilm: Film,
   tab: TabView
 };
 
-const getRunTime = (runTime: number):string => {
+const getRunTime = (runTime: number): string => {
   const oneHour = 60;
   const minMinuteInterval = 10;
   const hours = Math.trunc(runTime / oneHour);
@@ -23,6 +25,8 @@ const getRunTime = (runTime: number):string => {
 };
 
 const Tabs = ({ targetFilm, tab }: TabsProp): JSX.Element => {
+  const comments = useAppSelector((state) => state.comments);
+
   switch (tab) {
     case TabsTypes.DETAILS: {
       return (
@@ -35,7 +39,7 @@ const Tabs = ({ targetFilm, tab }: TabsProp): JSX.Element => {
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Starring</strong>
               <span className="film-card__details-value">
-                {targetFilm.starring.map((star, index, arr) => index !== arr.length - 1 ? <>{`${star},`} <br/></> : <>{star} <br/></>)}
+                {targetFilm.starring.map((star, index, arr) => index !== arr.length - 1 ? <>{`${star},`} <br /></> : <>{star} <br /></>)}
               </span>
             </p>
           </div>
@@ -56,23 +60,7 @@ const Tabs = ({ targetFilm, tab }: TabsProp): JSX.Element => {
         </div>);
     }
     case TabsTypes.REVIEW: {
-      return (
-        <div className="film-card__reviews film-card__row">
-          <div className="film-card__reviews-col">
-            <div className="review">
-              <blockquote className="review__quote">
-                <p className="review__text">Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director&apos;s funniest and most exquisitely designed films in years.</p>
-
-                <footer className="review__details">
-                  <cite className="review__author">Kate Muir</cite>
-                  <time className="review__date" dateTime="2016-12-24">December 24, 2016</time>
-                </footer>
-              </blockquote>
-
-              <div className="review__rating">8,9</div>
-            </div>
-          </div>
-        </div>);
+      return <Fragment>{comments.map((commentItem) => <Comment key={commentItem.id} commentItem={commentItem} />)}</Fragment>;
     }
     default: {
       return (<Fragment>

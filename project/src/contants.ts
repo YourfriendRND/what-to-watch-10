@@ -29,6 +29,10 @@ const FILM_LIMIT_ON_MAIN_SCREEN = 8;
 
 const MAX_SAME_FILM_COUNT = 4;
 
+const MIN_FILM_RATING = 1;
+
+const MAX_FILM_RATING = 10;
+
 const BASE_GENRE_FILM = 'All genres';
 
 const SERVER_URL = 'https://10.react.pages.academy/wtw';
@@ -39,7 +43,9 @@ const AUTH_TOKEN_KEY_NAME = 'what-to-whatch-token';
 
 enum ServerRoute {
   FILM_ROUTE = '/films',
-  LOGIN_ROUTE = '/login'
+  LOGIN_ROUTE = '/login',
+  LOGOUT_ROUTE = '/logout',
+  COMMENTS_ROUTE = '/comments'
 }
 
 export {
@@ -54,5 +60,7 @@ export {
   SERVER_URL,
   REQUEST_TIMEOUT,
   AUTH_TOKEN_KEY_NAME,
-  ServerRoute
+  ServerRoute,
+  MIN_FILM_RATING,
+  MAX_FILM_RATING
 };
