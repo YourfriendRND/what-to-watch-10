@@ -1,18 +1,18 @@
 import { ChangeEvent, Fragment } from 'react';
-import { CommentTemplate } from '../../types/general';
 
 type RatingStarProp = {
   starId: number,
-  commentTemplate: CommentTemplate
+  onChangeRating: React.Dispatch<React.SetStateAction<number>>,
+  currentRating: number
 }
 
-const RatingStar = ({ starId, commentTemplate }: RatingStarProp): JSX.Element => {
+const RatingStar = ({ starId, onChangeRating, currentRating }: RatingStarProp): JSX.Element => {
   const onChangedHandler = (evt: ChangeEvent<HTMLInputElement>) => {
-    commentTemplate.rating = Number(evt.target.value);
+    onChangeRating(Number(evt.target.value));
   };
   return (
     <Fragment>
-      <input className="rating__input" id={`star-${starId}`} type="radio" name="rating" value={starId} onChange={onChangedHandler} />
+      <input className="rating__input" id={`star-${starId}`} type="radio" name="rating" value={starId} onChange={onChangedHandler} checked={currentRating === starId} />
       <label className="rating__label" htmlFor={`star-${starId}`}>Rating {starId}</label>
     </Fragment>
   );

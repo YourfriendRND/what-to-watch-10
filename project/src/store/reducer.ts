@@ -1,6 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Film } from '../types/film';
-import { setGenre, loadFilms, setFilmFetchAsFinished, setAuthStatus, loadSpecificFilm, loadSimilarFilms, setLoadingStatus, clearCurrentFilm, loadCommentList } from './action';
+import {
+  setGenre,
+  loadFilms,
+  setFilmFetchAsFinished,
+  setAuthStatus,
+  loadSpecificFilm,
+  loadSimilarFilms,
+  setLoadingStatus,
+  clearCurrentFilm,
+  loadCommentList,
+  loadPromoFilm,
+  setError
+} from './action';
 import { BASE_GENRE_FILM, AuthorizationStatus } from '../contants';
 import { FilmComment } from '../types/general';
 
@@ -9,6 +21,7 @@ type InitialStateType = {
   filmList: Film[],
   isFilmListLoaded: boolean,
   authorizationStatus: string,
+  promo: Film | null,
   currentFilm: Film | null,
   similarFilms: Film[] | null,
   isLoading: boolean,
@@ -21,6 +34,7 @@ const initialState:InitialStateType = {
   filmList: [],
   isFilmListLoaded: false,
   authorizationStatus: AuthorizationStatus.Unknown,
+  promo: null,
   currentFilm: null,
   similarFilms: null,
   isLoading: false,
@@ -57,6 +71,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadCommentList, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(loadPromoFilm, (state, action) => {
+      state.promo = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });
 

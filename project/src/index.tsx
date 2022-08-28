@@ -5,13 +5,6 @@ import { Provider } from 'react-redux';
 import { store } from './store/index';
 import { fetchFilmsAction, checkUserAuthStatus } from './store/api-actions';
 
-
-const PromoFilmData = {
-  TITLE: 'The Grand Budapest Hotel',
-  GENRE: 'Drama',
-  YEAR: 2014
-};
-
 store.dispatch(fetchFilmsAction());
 store.dispatch(checkUserAuthStatus());
 
@@ -22,7 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App title={PromoFilmData.TITLE} genre={PromoFilmData.GENRE} year={PromoFilmData.YEAR} />
+      <App />
     </Provider>
   </React.StrictMode>,
 );

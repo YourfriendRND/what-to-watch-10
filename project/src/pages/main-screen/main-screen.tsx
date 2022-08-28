@@ -1,24 +1,35 @@
 import Logo from '../../components/logo/logo';
-import { useAppSelector } from '../../hooks/index';
+import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import Catalog from '../../components/catalog/catalog';
 import Spinner from '../../components/spinner/spinner';
 import UserBlock from '../../components/user-block/user-block';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { useEffect } from 'react';
+import { fetchPromoFilm } from '../../store/api-actions';
+import { setLoadingStatus } from '../../store/action';
 
-type PromoFilm = {
-  title: string,
-  genre: string,
-  year: number,
-}
-
-const MainScreen = ({ title, genre, year }: PromoFilm): JSX.Element => {
+const MainScreen = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const currentGenre = useAppSelector((state) => state.genre);
   const filmList = useAppSelector((state) => state.filmList);
   const isFilmListLoaded = useAppSelector((state) => state.isFilmListLoaded);
+  const promoFilm = useAppSelector((state) => state.promo);
+  const isLoading = useAppSelector((state) => state.isLoading);
+
+  useEffect(() => {
+    dispatch(setLoadingStatus(true));
+    dispatch(fetchPromoFilm());
+  }, [dispatch]);
+
+  if (!promoFilm || isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <section className="main">
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -31,14 +42,14 @@ const MainScreen = ({ title, genre, year }: PromoFilm): JSX.Element => {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={promoFilm.posterImage} alt={`${promoFilm.name} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{title}</h2>
+              <h2 className="film-card__title">{promoFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{year}</span>
+                <span className="film-card__genre">{promoFilm.genre}</span>
+                <span className="film-card__year">{promoFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">

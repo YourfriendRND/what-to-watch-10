@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import Comment from '../comment/comment';
 import { Film } from '../../types/film';
-import { TabsTypes } from '../../contants';
+import { FilmGrade, TabsTypes, HIGH_FILM_GRADE } from '../../contants';
 import { TabView } from '../../types/general';
 import { useAppSelector } from '../../hooks';
 
@@ -22,6 +22,17 @@ const getRunTime = (runTime: number): string => {
     return `${hours}h 0${minutes}m`;
   }
   return `${hours}h`;
+};
+
+const getFilmGrade = (rating: number): string => {
+  const filmGrade = Object.keys(FilmGrade).find((grade) => {
+    const [min, max] = FilmGrade[grade];
+    if (rating >= min && rating < max) {
+      return grade;
+    }
+    return undefined;
+  });
+  return filmGrade ? filmGrade : HIGH_FILM_GRADE;
 };
 
 const Tabs = ({ targetFilm, tab }: TabsProp): JSX.Element => {
@@ -67,7 +78,7 @@ const Tabs = ({ targetFilm, tab }: TabsProp): JSX.Element => {
         <div className="film-rating">
           <div className="film-rating__score">{targetFilm.rating}</div>
           <p className="film-rating__meta">
-            <span className="film-rating__level">Very good</span>
+            <span className="film-rating__level">{getFilmGrade(targetFilm.rating)}</span>
             <span className="film-rating__count">{targetFilm.scoresCount} ratings</span>
           </p>
         </div>

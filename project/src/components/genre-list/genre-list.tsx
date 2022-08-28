@@ -1,6 +1,6 @@
 import { Film } from '../../types/film';
 import GenreItem from '../genre-item/genre-item';
-import { BASE_GENRE_FILM } from '../../contants';
+import { BASE_GENRE_FILM, MAX_GENRE_COUNT } from '../../contants';
 
 type GenreListProp = {
   currentGenre: string,
@@ -14,7 +14,7 @@ const GenreList = ({currentGenre, films}: GenreListProp): JSX.Element => {
     return Array.from(genresCollection);
   };
 
-  const genreList = [BASE_GENRE_FILM, ...getUniqGenre()];
+  const genreList = [BASE_GENRE_FILM, ...getUniqGenre()].slice(0, MAX_GENRE_COUNT);
 
   return (
     <ul className="catalog__genres-list">

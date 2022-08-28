@@ -24,3 +24,5 @@ export const clearCurrentFilm = createAction('clearCurrentFilm');
 export const setError = createAction<string | null>('setError');
 
 export const loadCommentList = createAction<FilmComment[]>('loadCommentList');
+
+export const loadPromoFilm = createAction<Film>('loadPromoFilm');

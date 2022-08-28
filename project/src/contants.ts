@@ -33,11 +33,15 @@ const MIN_FILM_RATING = 1;
 
 const MAX_FILM_RATING = 10;
 
+const MAX_GENRE_COUNT = 9;
+
 const BASE_GENRE_FILM = 'All genres';
 
 const SERVER_URL = 'https://10.react.pages.academy/wtw';
 
 const REQUEST_TIMEOUT = 5000;
+
+const ERROR_CLEAR_TIMEOUT = 3000;
 
 const AUTH_TOKEN_KEY_NAME = 'what-to-whatch-token';
 
@@ -45,8 +49,22 @@ enum ServerRoute {
   FILM_ROUTE = '/films',
   LOGIN_ROUTE = '/login',
   LOGOUT_ROUTE = '/logout',
-  COMMENTS_ROUTE = '/comments'
+  COMMENTS_ROUTE = '/comments58',
+  PROMO = '/promo'
 }
+
+type GradeTypes = {
+  [grade: string]: number[]
+}
+
+const FilmGrade:GradeTypes = {
+  'Bad': [0, 3],
+  'Normal': [3, 5],
+  'Good': [5, 8],
+  'Very good': [8, 10],
+};
+
+const HIGH_FILM_GRADE = 'Awesome';
 
 export {
   CARD_QTY_ON_PAGE,
@@ -62,5 +80,9 @@ export {
   AUTH_TOKEN_KEY_NAME,
   ServerRoute,
   MIN_FILM_RATING,
-  MAX_FILM_RATING
+  MAX_FILM_RATING,
+  MAX_GENRE_COUNT,
+  FilmGrade,
+  HIGH_FILM_GRADE,
+  ERROR_CLEAR_TIMEOUT
 };

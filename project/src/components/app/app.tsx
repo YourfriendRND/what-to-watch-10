@@ -10,21 +10,20 @@ import { AppPageRoute } from '../../contants';
 import PrivateRoute from '../private-route/private-route';
 import { useAppSelector } from '../../hooks/index';
 
-type MainPromoFilm = {
-  title: string,
-  genre: string,
-  year: number,
-}
-
-function App({title, genre, year}: MainPromoFilm): JSX.Element {
+function App(): JSX.Element {
   const filmList = useAppSelector((state) => state.filmList);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppPageRoute.Main} element={<MainScreen title={title} genre={genre} year={year}/>} />
+        <Route path={AppPageRoute.Main} element={<MainScreen />} />
         <Route path={AppPageRoute.Login} element={<AuthScreen />} />
         <Route path={AppPageRoute.Film} element={<MovieScreen />} />
-        <Route path={AppPageRoute.FilmReview} element={<MovieScreenReview filmList={filmList}/>} />
+        <Route path={AppPageRoute.FilmReview} element={
+          <PrivateRoute>
+            <MovieScreenReview />
+          </PrivateRoute>
+        }
+        />
         <Route path={AppPageRoute.MyList} element={
           <PrivateRoute>
             <MyListScreen filmList={filmList} />

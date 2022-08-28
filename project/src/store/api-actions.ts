@@ -3,9 +3,10 @@ import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../types/state';
 import { Film } from '../types/film';
 import { User, Login, FilmComment, CommentTemplate } from '../types/general';
-import { loadFilms, loadSpecificFilm, setAuthStatus, setFilmFetchAsFinished, loadSimilarFilms, setError, setLoadingStatus, loadCommentList } from './action';
-import { AuthorizationStatus, ServerRoute } from '../contants';
+import { loadFilms, loadSpecificFilm, setAuthStatus, setFilmFetchAsFinished, loadSimilarFilms, setError, setLoadingStatus, loadCommentList, loadPromoFilm } from './action';
+import { AuthorizationStatus, ERROR_CLEAR_TIMEOUT, ServerRoute } from '../contants';
 import { dropToken, saveToken } from '../services/token';
+import { store } from './index';
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -116,8 +117,25 @@ export const createComment = createAsyncThunk<void, CommentTemplate, {
     try {
       const { data } = await api.post<FilmComment[]>(`${ServerRoute.COMMENTS_ROUTE}/${filmId}`, { comment, rating });
       dispatch(loadCommentList(data));
-    } catch (err) {
-      dispatch(setError('Не удалось отправить комментарий'));
+    } catch {
+      dispatch(setError('Couldn\'t to post your comment, please try again later'));
     }
   }
 );
+
+export const fetchPromoFilm = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'fetchPromoFilm',
+  async (_args, {dispatch, extra: api}) => {
+    const { data } = await api.get<Film>(ServerRoute.PROMO);
+    dispatch(loadPromoFilm(data));
+    dispatch(setLoadingStatus(false));
+  }
+);
+
+export const clearErrorMessage = createAsyncThunk('clearError', () => {
+  setTimeout(() => store.dispatch(setError(null)), ERROR_CLEAR_TIMEOUT);
+});
